@@ -1,5 +1,12 @@
-<div>
-  <button id="setAccountsBtn" data-toggle="modal" data-target="#accountsModal" type="button" class="btn btn-primary">Set Accounts</button>
+<div class="button-bar">
+  <button id="setAccountsBtn" data-toggle="modal" data-target="#accountsModal" type="button" class="btn btn-primary">
+    <span *ngIf="accountList" class="glyphicon glyphicon-filter"></span>
+    Set accounts
+  </button>
+  <button *ngIf="accountList" type="button" class="btn btn-link" (click)="clearFilter()">
+    <span class="glyphicon glyphicon-remove"></span>
+    Clear filter
+  </button>
 </div>
 
 <div id="report-container"></div>
@@ -19,7 +26,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="setAccounts()">Set Filter</button>
+        <button type="button" class="btn btn-primary" (click)="setAccounts()">Save</button>
       </div>
     </div>
   </div>

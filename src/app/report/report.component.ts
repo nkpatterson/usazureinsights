@@ -97,12 +97,23 @@ export class ReportComponent implements OnInit {
   }
 
   setAccounts() {
-    let accounts = this.accountList.split('\n');
-    let tpFilter = this.getTopParentFilter(accounts);
+    let accounts = this.defaultAccounts;
+
+    if (this.accountList != null && this.accountList != "") {
+      accounts = this.accountList.split('\n');
+    }
+
     let fyFilter = this.getFyFilter();
+    let tpFilter = this.getTopParentFilter(accounts);
+
     this.getReport().setFilters([tpFilter, fyFilter])
       .then(() => {
         jQuery("#accountsModal").modal('hide');
       });
+  }
+
+  clearFilter() {
+    this.accountList = null;
+    this.getReport().setFilters(this.getDefaultFilters());
   }
 }
