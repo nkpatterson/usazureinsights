@@ -3,9 +3,13 @@
     <span *ngIf="accountList" class="glyphicon glyphicon-filter"></span>
     Set accounts
   </button>
-  <button *ngIf="accountList" type="button" class="btn btn-link" (click)="clearFilter()">
+  <button *ngIf="accountList" type="button" class="btn btn-default" (click)="clearFilter()">
     <span class="glyphicon glyphicon-remove"></span>
-    Clear filter
+    Clear accounts
+  </button>
+  <button type="button" class="btn btn-default" (click)="fullscreen()">
+    <span class="glyphicon glyphicon-fullscreen"></span>
+    Full screen
   </button>
 </div>
 
@@ -19,6 +23,13 @@
         <h4 class="modal-title" id="setAccountsTitle">Filter Accounts List</h4>
       </div>
       <div class="modal-body">
+        Follow these steps to get your account list:
+        <ol>
+          <li>Open the <em>FY18 CE Territory Planning</em> spreadsheet from the <a href="https://teams.microsoft.com/_#/files/Account%20Mapping?threadId=19%3A2f05d9a9af9d4a5eabb1073e19bcd8ce%40thread.skype&ctx=channel" target="_blank">Account Mapping channel</a></li>
+          <li>Filter accounts however you'd like (e.g., by assigned SSP, TSP, AE, etc.)</li>
+          <li>Copy JUST the values out of the TPAccountName column--do not include header, extra lines, etc.</li>
+          <li>Past those values in the box below and click Save</li>
+        </ol>
         <div class="form-group">
           <label for="message-text" class="control-label">Accounts</label>
           <textarea rows="20" [(ngModel)]="accountList" class="form-control" id="message-text" placeholder="Copy and paste a list of Top Parent account names, each on a separate line."></textarea>

@@ -116,4 +116,8 @@ export class ReportComponent implements OnInit {
     this.accountList = null;
     this.getReport().setFilters(this.getDefaultFilters());
   }
+
+  fullscreen() {
+    this.getReport().fullscreen();
+  }
 }
