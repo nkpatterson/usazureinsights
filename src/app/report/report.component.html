@@ -1,0 +1,26 @@
+<div>
+  <button id="setAccountsBtn" data-toggle="modal" data-target="#accountsModal" type="button" class="btn btn-primary">Set Accounts</button>
+</div>
+
+<div id="report-container"></div>
+
+<div class="modal fade" id="accountsModal" tabindex="-1" role="dialog" aria-labelledby="setAccountsModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="setAccountsTitle">Filter Accounts List</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="message-text" class="control-label">Accounts</label>
+          <textarea rows="20" [(ngModel)]="accountList" class="form-control" id="message-text" placeholder="Copy and paste a list of Top Parent account names, each on a separate line."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="setAccounts()">Set Filter</button>
+      </div>
+    </div>
+  </div>
+</div>
