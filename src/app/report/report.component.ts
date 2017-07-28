@@ -116,7 +116,7 @@ export class ReportComponent implements OnInit {
     let accounts = this.defaultAccounts;
 
     if (this.accountList != null && this.accountList != "") {
-      accounts = this.accountList.split('\n');
+      accounts = this.accountList.split('\n').filter(n => n != "");
       let today = new Date();
       let expires = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
       this.cookies.put(this.cookieKey, this.accountList, {
