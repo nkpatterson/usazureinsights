@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdalService } from 'ng2-adal/core';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,8 @@ export class AppComponent implements OnInit {
         "tenant": "72f988bf-86f1-41af-91ab-2d7cd011db47",
         "clientId": "bed4cebd-57b0-46d0-a093-5b7c22150e27",
         "resource": "https://analysis.windows.net/powerbi/api",
-        "redirectUri": "http://localhost:4200/",
-        "postLogoutRedirectUri": "http://localhost:4200/"
+        "redirectUri": environment.adalRedirectUri,
+        "postLogoutRedirectUri": environment.adalRedirectUri
     });
 
     this.adalService.handleWindowCallback();
