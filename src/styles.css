@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+body { 
+    background-color: #f1f1f1;
+}
+#report-container iframe {
+    border: 1px solid #c9c9c9;
+    box-shadow: 0 0 10px #c9c9c9;
+}
+.btn { 
+    border-radius: 0 !important;
+}
