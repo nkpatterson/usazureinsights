@@ -33,14 +33,14 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.adalService.acquireToken("https://analysis.windows.net/powerbi/api")
-      .subscribe(token => {
-        this.token = token;
-        this.embedReport();
-      });
     this.accounts.getMasterAccountsList()
       .subscribe(accounts => {
         this.defaultAccounts = accounts;
+        this.adalService.acquireToken("https://analysis.windows.net/powerbi/api")
+          .subscribe(token => {
+            this.token = token;
+            this.embedReport();
+          });
       });
   }
 
