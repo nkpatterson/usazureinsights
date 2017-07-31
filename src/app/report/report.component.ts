@@ -5,8 +5,6 @@ import * as models from 'powerbi-models';
 import { AdalService} from 'ng2-adal/core';
 declare var jQuery: any;
 
-import { AccountsService } from '../accounts.service';
-
 @Component({
   selector: 'my-report',
   templateUrl: './report.component.html',
@@ -15,14 +13,13 @@ import { AccountsService } from '../accounts.service';
 export class ReportComponent implements OnInit {
   private token: string;
   private accountList: string;
-  private defaultAccounts: string[];
   private report: pbi.Report;
   private container: any;
+  private defaultFilters: models.IFilter[];
   private cookieKey: string = "sweouinsights.accountList";
 
   constructor(
     private adalService: AdalService,
-    private accounts: AccountsService,
     private cookies: CookieService
   ) { 
     let savedAccounts = this.cookies.get(this.cookieKey);
@@ -33,14 +30,10 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.accounts.getMasterAccountsList()
-      .subscribe(accounts => {
-        this.defaultAccounts = accounts;
-        this.adalService.acquireToken("https://analysis.windows.net/powerbi/api")
-          .subscribe(token => {
-            this.token = token;
-            this.embedReport();
-          });
+    this.adalService.acquireToken("https://analysis.windows.net/powerbi/api")
+      .subscribe(token => {
+        this.token = token;
+        this.embedReport();
       });
   }
 
@@ -67,11 +60,13 @@ export class ReportComponent implements OnInit {
     this.report.off("loaded");
     this.report.on("loaded", function() {
       console.log("Report loaded");
+
+      me.report.getFilters().then(filters => {
+        me.defaultFilters = filters;
+      });
+
       if (me.accountList) {
         me.setAccounts();
-      }
-      else {
-        me.getReport().setFilters(me.getDefaultFilters());
       }
     });
     this.report.on("error", function(evt) {
@@ -81,13 +76,6 @@ export class ReportComponent implements OnInit {
 
   getReport(): pbi.Report {
     return window.powerbi.get(this.container) as pbi.Report;
-  }
-
-  getDefaultFilters() {
-    let tpFilter = this.getTopParentFilter(this.defaultAccounts);
-    let fyFilter = this.getFyFilter();
-
-    return [tpFilter, fyFilter];
   }
 
   getTopParentFilter(values): models.IBasicFilter {
@@ -113,7 +101,7 @@ export class ReportComponent implements OnInit {
   }
 
   setAccounts() {
-    let accounts = this.defaultAccounts;
+    let accounts = [];
 
     if (this.accountList != null && this.accountList != "") {
       accounts = this.accountList.split('\n').filter(n => n != "");
@@ -136,7 +124,7 @@ export class ReportComponent implements OnInit {
   clearAccounts() {
     this.accountList = null;
     this.cookies.remove(this.cookieKey);
-    this.getReport().setFilters(this.getDefaultFilters());
+    this.getReport().setFilters(this.defaultFilters);
   }
 
   fullscreen() {

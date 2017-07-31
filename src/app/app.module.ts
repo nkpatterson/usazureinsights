@@ -8,8 +8,6 @@ import { ProfileModule } from './profile/profile.module';
 import { ReportModule } from './report/report.module';
 import { AppComponent } from './app.component';
 
-import { AccountsService } from './accounts.service';
-
 @NgModule({
   declarations: [
     AppComponent
@@ -21,8 +19,7 @@ import { AccountsService } from './accounts.service';
     ReportModule
   ],
   providers: [
-    AdalService,
-    AccountsService
+    AdalService
   ],
   exports: [
     ProfileModule,
