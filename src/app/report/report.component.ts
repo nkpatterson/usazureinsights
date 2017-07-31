@@ -45,7 +45,7 @@ export class ReportComponent implements OnInit {
   }
 
   embedReport() {
-    let reportId = "51d6615c-911b-4b86-9db3-61e305ac7f70";
+    let reportId = "08eae7c5-0a77-4c8b-a2e1-82238ee10682";
     let groupId = "93dacd31-caed-458a-8c63-6fe12375911f";
     let config = {
       type: 'report',
@@ -141,5 +141,14 @@ export class ReportComponent implements OnInit {
 
   fullscreen() {
     this.getReport().fullscreen();
+  }
+
+  saveReportAs() {
+    let report = this.getReport();
+    report.saveAs({
+      name: "Test save as"
+    }).then(() => {
+      // todo: show notification that report was saved with link to PBI
+    });
   }
 }
