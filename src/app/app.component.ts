@@ -16,8 +16,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.adalService.init({
-        "tenant": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-        "clientId": "bed4cebd-57b0-46d0-a093-5b7c22150e27",
+        "clientId": "89e85e24-f329-462a-adb7-5417f45b371a",
         "resource": "https://analysis.windows.net/powerbi/api"
     });
 
