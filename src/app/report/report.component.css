@@ -16,3 +16,9 @@
         float: right;
         margin: 10px 0;
     }
+        #report-selector .dropdown a {
+            cursor: pointer;
+        }
+        #report-selector .dropdown a.disabled {
+            cursor: auto;
+        }
