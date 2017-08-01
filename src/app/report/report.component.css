@@ -5,3 +5,20 @@
     margin: 10px 0;
     float: right;
 }
+#report-selector { 
+    float: left;
+}
+    #report-selector h3 {
+        float: left;
+        margin: 12px 0 !important;
+    }
+    #report-selector .dropdown {
+        float: right;
+        margin: 10px 0;
+    }
+        #report-selector .dropdown a {
+            cursor: pointer;
+        }
+        #report-selector .dropdown a.disabled {
+            cursor: auto;
+        }

@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import * as pbi from 'powerbi-client';
 import * as models from 'powerbi-models';
-import { AdalService} from 'ng2-adal/core';
+import * as qs from 'qs';
+import { AdalService } from 'ng2-adal/core';
+
+import { ReportService } from './report.service';
+import { Report } from './report';
+
 declare var jQuery: any;
 
 @Component({
@@ -18,15 +23,22 @@ export class ReportComponent implements OnInit {
   private defaultFilters: models.IFilter[];
   private cookieKey: string = "sweouinsights.accountList";
   private pbiResource: string = "https://analysis.windows.net/powerbi/api";
+  private reportsList: Report[];
+  private selectedReport: Report;
 
   constructor(
     private adalService: AdalService,
-    private cookies: CookieService
+    private cookies: CookieService,
+    private reportSvc: ReportService
   ) { 
     let savedAccounts = this.cookies.get(this.cookieKey);
     if (savedAccounts) {
       this.accountList = savedAccounts;
     }
+
+    let q = qs.parse(window.location.search.replace("?", ""));
+    this.reportsList = reportSvc.getReports();
+    this.selectedReport = q.reportId ? reportSvc.getReport(q.reportId) : this.reportsList[0];
   }
 
   ngOnInit() {
@@ -38,14 +50,12 @@ export class ReportComponent implements OnInit {
   }
 
   embedReport() {
-    let reportId = "08eae7c5-0a77-4c8b-a2e1-82238ee10682";
-    let groupId = "93dacd31-caed-458a-8c63-6fe12375911f";
     let config = {
       type: 'report',
       tokenType: pbi.models.TokenType.Aad,
       accessToken: this.token,
-      embedUrl: `https://msit.powerbi.com/reportEmbed?reportId=${reportId}&groupId=${groupId}`,
-      id: reportId,
+      embedUrl: this.selectedReport.getEmbedUrl(),
+      id: this.selectedReport.id,
       permissions: pbi.models.Permissions.Read,
       settings: {
           filterPaneEnabled: true,
@@ -59,8 +69,6 @@ export class ReportComponent implements OnInit {
     let me = this;
     this.report.off("loaded");
     this.report.on("loaded", function() {
-      console.log("Report loaded");
-
       me.report.getFilters().then(filters => {
         me.defaultFilters = filters;
       });
@@ -68,6 +76,9 @@ export class ReportComponent implements OnInit {
       if (me.accountList) {
         me.setAccounts();
       }
+
+      if (me.selectedReport.callback)
+        me.selectedReport.callback(me.report);
     });
     this.report.on("error", function(evt) {
       console.error(evt);
@@ -146,5 +157,11 @@ export class ReportComponent implements OnInit {
     }).then(() => {
       // todo: show notification that report was saved with link to PBI
     });
+  }
+
+  changeReport(id: string) {
+    let q = qs.stringify({reportId: id});
+    let url = `/?${q}`;
+    window.location.href = url;
   }
 }

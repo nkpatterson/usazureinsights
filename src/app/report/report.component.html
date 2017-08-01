@@ -1,3 +1,18 @@
+<div id="report-selector">
+  <h3>{{selectedReport.name}}</h3>
+  <div class="dropdown">
+    <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      Change report
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <li *ngFor="let rpt of reportsList" [ngClass]="{'disabled': selectedReport.id == rpt.id}">
+        <a *ngIf="selectedReport.id == rpt.id" class="disabled">{{rpt.name}}</a>
+        <a *ngIf="selectedReport.id != rpt.id" (click)="changeReport(rpt.id)">{{rpt.name}}</a>
+      </li>
+    </ul>
+  </div>
+</div>
 <div class="button-bar">
   <button id="setAccountsBtn" data-toggle="modal" data-target="#accountsModal" type="button" class="btn btn-primary">
     <span *ngIf="accountList" class="glyphicon glyphicon-filter"></span>
@@ -32,7 +47,7 @@
           <li>Open the <em>FY18 CE Territory Planning</em> spreadsheet from the <a href="https://teams.microsoft.com/_#/files/Account%20Mapping?threadId=19%3A2f05d9a9af9d4a5eabb1073e19bcd8ce%40thread.skype&ctx=channel" target="_blank">Account Mapping channel</a></li>
           <li>Filter accounts however you'd like (e.g., by assigned SSP, TSP, AE, etc.)</li>
           <li>Copy JUST the values out of the TPAccountName column--do not include header, extra lines, etc.</li>
-          <li>Past those values in the box below and click Save</li>
+          <li>Paste those values in the box below and click Save</li>
         </ol>
         <div class="form-group">
           <label for="message-text" class="control-label">Accounts</label>
