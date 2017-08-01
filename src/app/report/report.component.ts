@@ -17,6 +17,7 @@ export class ReportComponent implements OnInit {
   private container: any;
   private defaultFilters: models.IFilter[];
   private cookieKey: string = "sweouinsights.accountList";
+  private pbiResource: string = "https://analysis.windows.net/powerbi/api";
 
   constructor(
     private adalService: AdalService,
@@ -24,13 +25,12 @@ export class ReportComponent implements OnInit {
   ) { 
     let savedAccounts = this.cookies.get(this.cookieKey);
     if (savedAccounts) {
-      console.log(savedAccounts);
       this.accountList = savedAccounts;
     }
   }
 
   ngOnInit() {
-    this.adalService.acquireToken("https://analysis.windows.net/powerbi/api")
+    this.adalService.acquireToken(this.pbiResource)
       .subscribe(token => {
         this.token = token;
         this.embedReport();
@@ -70,7 +70,15 @@ export class ReportComponent implements OnInit {
       }
     });
     this.report.on("error", function(evt) {
-      console.error(evt.detail);
+      console.error(evt);
+      let err = evt.detail as models.IError;
+      if (err && err.errorCode == "TokenExpired") {
+        me.adalService.acquireToken(me.pbiResource)
+          .subscribe(token => {
+            me.token = token;
+            me.embedReport();
+          })
+      }
     });
   }
 
