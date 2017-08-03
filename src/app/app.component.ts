@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdalService } from 'ng2-adal/core';
+declare var appInsights: any;
 
 @Component({
   selector: 'app-root',
@@ -24,8 +25,11 @@ export class AppComponent implements OnInit {
     this.isAuthenticated = this.adalService.userInfo.isAuthenticated;
     if (this.adalService.userInfo.isAuthenticated) {
       this.adalService.getUser()
-        .subscribe(user => this.userName = user.userName,
-                   error => console.error(error.message, error));
+        .subscribe(user => {
+          this.userName = user.userName
+          appInsights.setAuthenticatedUserContext(this.userName, this.userName);
+        },
+          error => console.error(error.message, error));
     }
     else {
       this.adalService.login();

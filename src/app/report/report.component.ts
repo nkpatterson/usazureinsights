@@ -8,6 +8,7 @@ import { AdalService } from 'ng2-adal/core';
 import { ReportService } from './report.service';
 import { Report } from './report';
 
+declare var appInsights: any;
 declare var jQuery: any;
 
 @Component({
@@ -50,6 +51,7 @@ export class ReportComponent implements OnInit {
   }
 
   embedReport() {
+    let startEmbed = new Date();
     let config = {
       type: 'report',
       tokenType: pbi.models.TokenType.Aad,
@@ -67,8 +69,14 @@ export class ReportComponent implements OnInit {
     this.report = window.powerbi.embed(this.container, config) as pbi.Report;
 
     let me = this;
+
     this.report.off("loaded");
     this.report.on("loaded", function() {
+      let endEmbed = new Date();
+      appInsights.trackEvent("ReportLoaded", 
+        {ReportName: me.selectedReport.name},
+        {ReportLoadTime: (endEmbed.getTime() - startEmbed.getTime()) / 1000});
+
       me.report.getFilters().then(filters => {
         me.defaultFilters = filters;
       });
@@ -80,15 +88,24 @@ export class ReportComponent implements OnInit {
       if (me.selectedReport.callback)
         me.selectedReport.callback(me.report);
     });
+
+    this.report.off("pageChanged");
+    this.report.on("pageChanged", function(event: any){
+      let page = event.detail.newPage;
+      appInsights.trackEvent("PageChanged", 
+        {NewPage: page.displayName});
+    });
+
     this.report.on("error", function(evt) {
       console.error(evt);
       let err = evt.detail as models.IError;
       if (err && err.errorCode == "TokenExpired") {
+        appInsights.trackEvent("TokenExpired");
         me.adalService.acquireToken(me.pbiResource)
           .subscribe(token => {
             me.token = token;
             me.embedReport();
-          })
+          });
       }
     });
   }
@@ -129,6 +146,9 @@ export class ReportComponent implements OnInit {
       this.cookies.put(this.cookieKey, this.accountList, {
         expires: expires
       });
+      appInsights.trackEvent("SetAccounts", 
+        null,
+        {NumberOfAccounts: accounts.length});
     }
 
     let fyFilter = this.getFyFilter();
@@ -144,10 +164,12 @@ export class ReportComponent implements OnInit {
     this.accountList = null;
     this.cookies.remove(this.cookieKey);
     this.getReport().setFilters(this.defaultFilters);
+    appInsights.trackEvent("ClearAccounts");
   }
 
   fullscreen() {
     this.getReport().fullscreen();
+    appInsights.trackEvent("FullScreen");
   }
 
   saveReportAs() {
@@ -162,6 +184,7 @@ export class ReportComponent implements OnInit {
   changeReport(id: string) {
     let q = qs.stringify({reportId: id});
     let url = `/?${q}`;
+    appInsights.trackEvent("ChangeReport", {ReportId: id});
     window.location.href = url;
   }
 }
