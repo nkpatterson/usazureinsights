@@ -118,7 +118,8 @@ export class ReportComponent implements OnInit {
   }
 
   getTopParentFilter(values): models.IBasicFilter {
-    return this.getFilter("Account Information", "Top Parent", values);
+    let filterConfig = this.selectedReport.accountFilterConfig;
+    return this.getFilter(filterConfig.table, filterConfig.column, values);
   }
 
   getFyFilter(): models.IBasicFilter {
