@@ -97,10 +97,9 @@ export class ReportComponent implements OnInit {
     });
 
     this.report.on("error", function(evt) {
-      console.error(evt);
       let err = evt.detail as models.IError;
-      appInsights.trackException(err, 
-        {DetailedMessage: err.detailedMessage, ErrorCode: err.errorCode, Message: err.message, TechnicalDetails: err.technicalDetails});
+      appInsights.trackException(new Error(err.message), "Report.OnError", 
+        {DetailedMessage: err.detailedMessage, ErrorCode: err.errorCode});
 
       if (err && err.errorCode == "TokenExpired") {
         appInsights.trackEvent("TokenExpired");
