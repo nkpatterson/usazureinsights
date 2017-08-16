@@ -25,7 +25,7 @@ const reportsList: Report[] = [
     //     });
     //   });
     // }),
-    new Report("Azure Monthly Benefits Usage", "688bf26e-d8bf-4ab3-8f31-ed94383ddc87", "93dacd31-caed-458a-8c63-6fe12375911f", new AccountFilterConfig("DimAccounts", "AccountName"))
+    new Report("Azure Monthly MSDN Benefits Usage", "8345d23f-c787-489e-8d01-a0b930659b01", "93dacd31-caed-458a-8c63-6fe12375911f", new AccountFilterConfig("DimAccounts", "AccountName"))
   ];
 
 @Injectable()

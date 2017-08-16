@@ -178,8 +178,9 @@ export class ReportComponent implements OnInit {
 
   saveReportAs() {
     let report = this.getReport();
+    let reportName = `${this.selectedReport.name} - Copy`;
     report.saveAs({
-      name: "Test save as"
+      name: reportName
     }).then(() => {
       // todo: show notification that report was saved with link to PBI
     });
