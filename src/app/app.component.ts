@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'angular2-cookie/core';
 import { AdalService } from 'ng2-adal/core';
 declare var appInsights: any;
+declare var jQuery: any;
 
 @Component({
   selector: 'app-root',
@@ -10,9 +12,11 @@ declare var appInsights: any;
 export class AppComponent implements OnInit {
   public userName: string;
   public isAuthenticated: boolean;
+  private cookieKey: string = "sweouinsights.whatsnew";
 
   constructor(
-    private adalService: AdalService
+    private adalService: AdalService,
+    private cookies: CookieService
   ) { }
 
   ngOnInit(): void {
@@ -34,5 +38,27 @@ export class AppComponent implements OnInit {
     else {
       this.adalService.login();
     }
+
+    this.initWhatsNew();
+  }
+
+  initWhatsNew() {
+    let whatsnew = jQuery("#whatsnew");
+    let dismissedVersion = this.cookies.get(this.cookieKey);
+    let currentVersion = whatsnew.data("version");
+
+    if (dismissedVersion && dismissedVersion >= currentVersion) {
+      whatsnew.alert("close");
+    }
+
+    let me = this;
+    whatsnew.on("closed.bs.alert", function() {
+        let version = whatsnew.data("version");
+        let today = new Date();
+        let expires = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
+        me.cookies.put(me.cookieKey, version, {
+          expires: expires
+        });
+      });
   }
 }
