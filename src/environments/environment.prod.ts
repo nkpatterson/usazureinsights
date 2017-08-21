@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  adalRedirectUri: "https://sweouinsights-beta.azurewebsites.net"
 };

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'angular2-cookie/core';
 import { AdalService } from 'ng2-adal/core';
+import { environment } from '../environments/environment';
 declare var appInsights: any;
 declare var jQuery: any;
 
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.adalService.init({
         "clientId": "89e85e24-f329-462a-adb7-5417f45b371a",
-        "resource": "https://analysis.windows.net/powerbi/api"
+        "resource": "https://analysis.windows.net/powerbi/api",
+        "redirectUri": environment.adalRedirectUri
     });
 
     this.adalService.handleWindowCallback();
