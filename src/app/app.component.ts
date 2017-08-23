@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.adalService.init({
         "clientId": "89e85e24-f329-462a-adb7-5417f45b371a",
-        "resource": "https://analysis.windows.net/powerbi/api"
-        // "redirectUri": environment.adalRedirectUri
+        "resource": "https://analysis.windows.net/powerbi/api",
+        "redirectUri": environment.adalRedirectUri
     });
 
     this.adalService.handleWindowCallback();
