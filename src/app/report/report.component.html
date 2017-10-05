@@ -46,12 +46,13 @@
         <ol>
           <li>Open the <em>FY18 CE Territory Planning</em> spreadsheet from the <a href="https://teams.microsoft.com/_#/files/Account%20Mapping?threadId=19%3A2f05d9a9af9d4a5eabb1073e19bcd8ce%40thread.skype&ctx=channel" target="_blank">Account Mapping channel</a></li>
           <li>Filter accounts however you'd like (e.g., by assigned SSP, TSP, AE, etc.)</li>
-          <li>Copy JUST the values out of the TPAccountName column--do not include header, extra lines, etc.</li>
-          <li>Paste those values in the box below and click Save</li>
+          <li>Copy either the TPIDs or TPAccountNames you want to view</li>
+          <li>Paste those values in the box below, one per line, and click Save</li>
         </ol>
-        <div class="form-group">
+        <div class="form-group" [ngClass]="{'has-feedback has-error': accountsModalErrorMsg != null}">
           <label for="message-text" class="control-label">Accounts</label>
           <textarea rows="20" [(ngModel)]="accountList" class="form-control" id="message-text" placeholder="Copy and paste a list of Top Parent account names, each on a separate line."></textarea>
+          <span class="help-block" *ngIf="accountsModalErrorMsg != null">{{accountsModalErrorMsg}}</span>
         </div>
       </div>
       <div class="modal-footer">

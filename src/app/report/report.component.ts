@@ -11,6 +11,8 @@ import { Report } from './report';
 declare var appInsights: any;
 declare var jQuery: any;
 
+const CANNOT_USE_TPIDS_AND_ACCOUNT_NAMES = "You cannot use both TPIDs and Account Names. Please choose one format or the other.";
+
 @Component({
   selector: 'my-report',
   templateUrl: './report.component.html',
@@ -26,6 +28,7 @@ export class ReportComponent implements OnInit {
   private pbiResource: string = "https://analysis.windows.net/powerbi/api";
   private reportsList: Report[];
   private selectedReport: Report;
+  private accountsModalErrorMsg: string;
 
   constructor(
     private adalService: AdalService,
@@ -116,9 +119,13 @@ export class ReportComponent implements OnInit {
     return window.powerbi.get(this.container) as pbi.Report;
   }
 
-  getTopParentFilter(values): models.IBasicFilter {
+  getTopParentFilter(values: string[]): models.IBasicFilter {
     let filterConfig = this.selectedReport.accountFilterConfig;
     return this.getFilter(filterConfig.table, filterConfig.column, values);
+  }
+
+  getTpidFilter(values: number[]): models.IBasicFilter {
+    return this.getFilter("Account Information", "TPID", values);
   }
 
   getFyFilter(): models.IBasicFilter {
@@ -141,6 +148,8 @@ export class ReportComponent implements OnInit {
 
   setAccounts() {
     let accounts = [];
+    let accountNames = [];
+    let tpids = [];
 
     if (this.accountList != null && this.accountList != "") {
       accounts = this.accountList.split('\n').filter(n => n != "").map(val => val.trim());
@@ -154,10 +163,32 @@ export class ReportComponent implements OnInit {
         {NumberOfAccounts: accounts.length});
     }
 
-    let fyFilter = this.getFyFilter();
-    let tpFilter = this.getTopParentFilter(accounts);
+    accounts.forEach(s => {
+      if (/^\d+$/g.test(s)) {
+        tpids.push(parseInt(s));
+      } else {
+        accountNames.push(s);
+      }
+    });
 
-    this.getReport().setFilters([tpFilter, fyFilter])
+    if (accountNames.length > 0 && tpids.length > 0) {
+      this.accountsModalErrorMsg = CANNOT_USE_TPIDS_AND_ACCOUNT_NAMES;
+      return;
+    } else {
+      this.accountsModalErrorMsg = null;
+    }
+
+    let fyFilter = this.getFyFilter();
+    let tpFilter = this.getTopParentFilter(accountNames);
+    let tpidFilter = this.getTpidFilter(tpids);
+    let filters = [fyFilter];
+
+    if (accountNames.length > 0)
+      filters.push(tpFilter);
+    else if (tpids.length > 0)
+      filters.push(tpidFilter);
+
+    this.getReport().setFilters(filters)
       .then(() => {
         jQuery("#accountsModal").modal('hide');
       });
