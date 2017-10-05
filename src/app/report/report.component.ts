@@ -3,7 +3,7 @@ import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
 import * as pbi from 'powerbi-client';
 import * as models from 'powerbi-models';
 import * as qs from 'qs';
-import { AdalService } from 'ng2-adal/core';
+import { AdalService } from 'ng2-adal/dist/core';
 
 import { ReportService } from './report.service';
 import { Report } from './report';

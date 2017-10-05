@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'angular2-cookie/core';
-import { AdalService } from 'ng2-adal/core';
+import { AdalService } from 'ng2-adal/dist/core';
 import { environment } from '../environments/environment';
 declare var appInsights: any;
 declare var jQuery: any;
