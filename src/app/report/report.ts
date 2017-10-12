@@ -5,17 +5,20 @@ export class Report {
     public id: string;
     public groupId: string;
     public accountFilterConfig: AccountFilterConfig;
+    public noAccessActionLink: string;
     public callback: (report: pbi.Report) => void;
 
     constructor (name: string, 
         id: string, 
         groupId: string = null, 
         accountFilterConfig: AccountFilterConfig = null,
+        noAccessActionLink: string = null,
         callback: (report: pbi.Report) => void = null) {
             this.name = name;
             this.id = id;
             this.groupId = groupId;
             this.accountFilterConfig = accountFilterConfig != null ? accountFilterConfig : new AccountFilterConfig();
+            this.noAccessActionLink = noAccessActionLink;
             this.callback = callback;
     }
 

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
+import { AdalService } from 'ng2-adal/dist/core';
 import * as pbi from 'powerbi-client';
 import * as models from 'powerbi-models';
 import * as qs from 'qs';
-import { AdalService } from 'ng2-adal/dist/core';
 
 import { ReportService } from './report.service';
 import { Report } from './report';
@@ -29,6 +29,8 @@ export class ReportComponent implements OnInit {
   private reportsList: Report[];
   private selectedReport: Report;
   private accountsModalErrorMsg: string;
+  private showNoAccessHelper: boolean;
+  private cookieExpiry: Date;
 
   constructor(
     private adalService: AdalService,
@@ -40,10 +42,15 @@ export class ReportComponent implements OnInit {
       this.accountList = savedAccounts;
     }
 
+    let today = new Date();
+    this.cookieExpiry = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
+
     let q = qs.parse(window.location.search.replace("?", ""));
     this.reportsList = reportSvc.getReports();
     this.selectedReport = q.reportId ? reportSvc.getReport(q.reportId) : this.reportsList[0];
-  }
+
+    this.initNoAccessHelper();
+}
 
   ngOnInit() {
     this.adalService.acquireToken(this.pbiResource)
@@ -53,7 +60,14 @@ export class ReportComponent implements OnInit {
       });
   }
 
+  initNoAccessHelper() {
+    let dismissed = this.cookies.get(`sweouinsights.noaccess.${this.selectedReport.id}`);
+    this.showNoAccessHelper = this.selectedReport.noAccessActionLink != null && dismissed == null;
+  }
+
   embedReport() {
+    this.initNoAccessHelper();
+
     let startEmbed = new Date();
     let config = {
       type: 'report',
@@ -153,10 +167,8 @@ export class ReportComponent implements OnInit {
 
     if (this.accountList != null && this.accountList != "") {
       accounts = this.accountList.split('\n').filter(n => n != "").map(val => val.trim());
-      let today = new Date();
-      let expires = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
       this.cookies.put(this.cookieKey, this.accountList, {
-        expires: expires
+        expires: this.cookieExpiry
       });
       appInsights.trackEvent("SetAccounts", 
         null,
@@ -192,6 +204,11 @@ export class ReportComponent implements OnInit {
       .then(() => {
         jQuery("#accountsModal").modal('hide');
       });
+  }
+
+  dismissNoAccessHelper() {
+    this.cookies.put(`sweouinsights.noaccess.${this.selectedReport.id}`, 'dismissed', { expires: this.cookieExpiry });
+    appInsights.trackEvent("NoAccessHelperDismissed", {ReportName: this.selectedReport.name});
   }
 
   clearAccounts() {

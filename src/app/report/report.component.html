@@ -32,6 +32,22 @@
   </button>
 </div>
 
+<div class="container" class="clear" *ngIf="showNoAccessHelper">
+  <div id="requestAccess" class="alert alert-warning" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dismissNoAccessHelper()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4>Report not loading?</h4> 
+    If the screen says "This content isn't available", you might not have access to this report yet. 
+    <a href="{{selectedReport.noAccessActionLink}}" target="_blank" class="btn btn-default btn-sm">
+      <span class="glyphicon glyphicon-new-window"></span> Request access
+    </a>
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="alert" aria-label="Close" (click)="dismissNoAccessHelper()">
+        <span class="glyphicon glyphicon-thumbs-up"></span> It works!
+    </button>
+  </div>
+</div><!-- /.container -->
+
 <div id="report-container"></div>
 
 <div class="modal fade" id="accountsModal" tabindex="-1" role="dialog" aria-labelledby="setAccountsModal">
@@ -42,16 +58,15 @@
         <h4 class="modal-title" id="setAccountsTitle">Filter Accounts List</h4>
       </div>
       <div class="modal-body">
-        Follow these steps to get your account list:
         <ol>
           <li>Open the <em>FY18 CE Territory Planning</em> spreadsheet from the <a href="https://teams.microsoft.com/_#/files/Account%20Mapping?threadId=19%3A2f05d9a9af9d4a5eabb1073e19bcd8ce%40thread.skype&ctx=channel" target="_blank">Account Mapping channel</a></li>
           <li>Filter accounts however you'd like (e.g., by assigned SSP, TSP, AE, etc.)</li>
-          <li>Copy either the TPIDs or TPAccountNames you want to view</li>
+          <li><strong>New!</strong> Copy either the TPIDs or TPAccountNames you want to view</li>
           <li>Paste those values in the box below, one per line, and click Save</li>
         </ol>
         <div class="form-group" [ngClass]="{'has-feedback has-error': accountsModalErrorMsg != null}">
           <label for="message-text" class="control-label">Accounts</label>
-          <textarea rows="20" [(ngModel)]="accountList" class="form-control" id="message-text" placeholder="Copy and paste a list of Top Parent account names, each on a separate line."></textarea>
+          <textarea rows="20" [(ngModel)]="accountList" class="form-control" id="message-text" placeholder="Copy and paste a list of Top Parent account names or TPIDs, each on a separate line."></textarea>
           <span class="help-block" *ngIf="accountsModalErrorMsg != null">{{accountsModalErrorMsg}}</span>
         </div>
       </div>

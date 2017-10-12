@@ -9,3 +9,6 @@ body {
 .btn, .alert, .dropdown-menu { 
     border-radius: 0 !important;
 }
+.clear {
+    clear: both;
+}

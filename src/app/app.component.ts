@@ -61,6 +61,8 @@ export class AppComponent implements OnInit {
         me.cookies.put(me.cookieKey, version, {
           expires: expires
         });
+
+        appInsights.trackEvent("WhatsNewDismissed", {Version: version});
       });
   }
 }
