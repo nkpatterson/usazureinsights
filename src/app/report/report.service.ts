@@ -26,7 +26,7 @@ const reportsList: Report[] = [
     //   });
     // }),
     new Report("Azure Monthly MSDN Benefits Usage", "8345d23f-c787-489e-8d01-a0b930659b01", "93dacd31-caed-458a-8c63-6fe12375911f", new AccountFilterConfig("DimAccounts", "AccountName")),
-    new Report("ISV Co-Sell Dashboard", "1d9ee913-1bc1-4936-83b2-ccfb81e169eb", "be4af5f0-770e-4e90-b7f0-9e04c864d7a8", new AccountFilterConfig("Account", "TP Account Name"), 'https://msit.powerbi.com/groups/me/dashboards/bfca9bc4-61be-4ca7-9ad6-5e532b70a786/requestAccess')
+    new Report("ISV Co-Sell Dashboard", "1d9ee913-1bc1-4936-83b2-ccfb81e169eb", "be4af5f0-770e-4e90-b7f0-9e04c864d7a8", new AccountFilterConfig("Account", "TP Account Name"), 'https://aka.ms/ocpsellwithdashboard')
   ];
 
 @Injectable()
