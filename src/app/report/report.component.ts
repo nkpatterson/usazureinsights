@@ -149,6 +149,7 @@ export class ReportComponent implements OnInit {
   getFilter(table: string, column: string, values): models.IBasicFilter {
     const filter: models.IBasicFilter = {
       $schema: "http://powerbi.com/product/schema#basic",
+      filterType: models.FilterType.Basic,
       target: {
         table: table,
         column: column
