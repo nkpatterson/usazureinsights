@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  adalRedirectUri: "https://sweouinsights-beta.azurewebsites.net"
+  adalRedirectUri: "https://usazureinsights.azurewebsites.net"
 };
