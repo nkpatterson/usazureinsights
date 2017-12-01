@@ -4,7 +4,7 @@ import * as pbi from 'powerbi-client';
 import * as models from 'powerbi-models';
 
 const reportsList: Report[] = [
-    new Report("U.S. Azure Insights Dashboard", "08eae7c5-0a77-4c8b-a2e1-82238ee10682", "93dacd31-caed-458a-8c63-6fe12375911f", null, "mailto:nipatter@microsoft.com?subject=U.S. Azure Insights Dashboard Access&body=Please add me :)"),
+    new Report("U.S. Azure Insights Dashboard", "934c259c-235f-48b9-abd2-be79ea1ba5b3", "93dacd31-caed-458a-8c63-6fe12375911f", null, "mailto:nipatter@microsoft.com?subject=U.S. Azure Insights Dashboard Access&body=Please add me :)"),
     // new Report("Azure Health Report Summary", "e83f256b-7f03-4a83-b173-018d9fc928c9", null, null, rpt => {
     //   rpt.getPages().then(pages => {
     //     pages.forEach(pg => {

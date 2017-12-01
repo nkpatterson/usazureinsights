@@ -231,6 +231,7 @@ export class ReportComponent implements OnInit {
       name: reportName
     }).then(() => {
       // todo: show notification that report was saved with link to PBI
+      console.log("Done saving!");
     });
   }
 
