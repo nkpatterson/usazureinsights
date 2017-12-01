@@ -82,8 +82,6 @@ export class ReportComponent implements OnInit {
       }
     };
 
-    
-
     this.container = jQuery("#report-container")[0];
     this.report = window.powerbi.embed(this.container, <any>config) as pbi.Report;
 
