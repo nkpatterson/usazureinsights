@@ -32,11 +32,18 @@ export class Report {
 }
 
 export class AccountFilterConfig {
-    public table: string;
-    public column: string;
+    public nameTable: string;
+    public nameColumn: string;
+    public tpidTable: string;
+    public tpidColumn: string;
+    public isTpidString: boolean;
 
-    constructor (table: string = "Account Information", column: string = "Top Parent") {
-        this.table = table;
-        this.column = column;
+    constructor (nameTable: string = "Account Information", nameColumn: string = "Top Parent",
+                 tpidTable: string = "Account Information", tpidColumn: string = "TPID", isTpidString: boolean = false) {
+        this.nameTable = nameTable;
+        this.nameColumn = nameColumn;
+        this.tpidTable = tpidTable;
+        this.tpidColumn = tpidColumn;
+        this.isTpidString = isTpidString;
     }
 }

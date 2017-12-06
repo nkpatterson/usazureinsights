@@ -135,15 +135,14 @@ export class ReportComponent implements OnInit {
 
   getTopParentFilter(values: string[]): models.IBasicFilter {
     let filterConfig = this.selectedReport.accountFilterConfig;
-    return this.getFilter(filterConfig.table, filterConfig.column, values);
+    return this.getFilter(filterConfig.nameTable, filterConfig.nameColumn, values);
   }
 
   getTpidFilter(values: number[]): models.IBasicFilter {
-    return this.getFilter("Account Information", "TPID", values);
-  }
+    let filterConfig = this.selectedReport.accountFilterConfig;
+    let arr = filterConfig.isTpidString ? values.map(String) : values;
 
-  getFyFilter(): models.IBasicFilter {
-    return this.getFilter("Calendar", "Fiscal Year", ["FY17", "FY18"]);
+    return this.getFilter(filterConfig.tpidTable, filterConfig.tpidColumn, arr);
   }
 
   getFilter(table: string, column: string, values): models.IBasicFilter {
@@ -191,10 +190,9 @@ export class ReportComponent implements OnInit {
       this.accountsModalErrorMsg = null;
     }
 
-    let fyFilter = this.getFyFilter();
     let tpFilter = this.getTopParentFilter(accountNames);
     let tpidFilter = this.getTpidFilter(tpids);
-    let filters = [fyFilter];
+    let filters = [];
 
     if (accountNames.length > 0)
       filters.push(tpFilter);
