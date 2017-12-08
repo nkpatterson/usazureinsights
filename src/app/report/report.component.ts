@@ -145,6 +145,10 @@ export class ReportComponent implements OnInit {
     return this.getFilter(filterConfig.tpidTable, filterConfig.tpidColumn, arr);
   }
 
+  getFyFilter(): models.IBasicFilter {
+    return this.getFilter("Calendar", "Fiscal Year", ["FY17", "FY18"]);
+  }
+  
   getFilter(table: string, column: string, values): models.IBasicFilter {
     const filter: models.IBasicFilter = {
       $schema: "http://powerbi.com/product/schema#basic",
@@ -190,9 +194,10 @@ export class ReportComponent implements OnInit {
       this.accountsModalErrorMsg = null;
     }
 
+    let fyFilter = this.getFyFilter();
     let tpFilter = this.getTopParentFilter(accountNames);
     let tpidFilter = this.getTpidFilter(tpids);
-    let filters = [];
+    let filters = [fyFilter];
 
     if (accountNames.length > 0)
       filters.push(tpFilter);
