@@ -23,6 +23,7 @@
     "@angular/router": "^4.0.0",
     "angular-powerbi": "^1.0.0",
     "angular2-cookie": "^1.2.6",
+    "adal-angular": "1.0.15",
     "core-js": "^2.4.1",
     "ng2-adal": "^2.0.0",
     "ng2-gravatar-directive": "^1.4.1",

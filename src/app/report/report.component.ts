@@ -57,6 +57,8 @@ export class ReportComponent implements OnInit {
       .subscribe(token => {
         this.token = token;
         this.embedReport();
+      }, error => {
+        console.error(error);
       });
   }
 
