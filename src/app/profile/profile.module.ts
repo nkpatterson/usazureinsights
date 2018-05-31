@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AdalService } from 'ng2-adal/dist/core';
 import { Gravatar } from 'ng2-gravatar-directive';
 
+import { AuthService } from './auth.service';
 import { ProfileComponent } from './profile.component';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { ProfileComponent } from './profile.component';
     ProfileComponent
   ],
   providers: [
-    AdalService
+    AuthService
   ],
   bootstrap: [ProfileComponent]
 })

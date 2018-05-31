@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'angular2-cookie/core';
-import { AdalService } from 'ng2-adal/dist/core';
 import { environment } from '../environments/environment';
+import { tokenKey } from '@angular/core/src/view';
+import { AuthService} from './profile/auth.service';
 declare var appInsights: any;
 declare var jQuery: any;
 
@@ -16,31 +17,13 @@ export class AppComponent implements OnInit {
   private cookieKey: string = "sweouinsights.whatsnew";
 
   constructor(
-    private adalService: AdalService,
+    private authService: AuthService,
     private cookies: CookieService
-  ) { }
+  ) {
+    this.authService.init();    
+  }
 
   ngOnInit(): void {
-    this.adalService.init({
-        "clientId": "89e85e24-f329-462a-adb7-5417f45b371a",
-        "resource": "https://analysis.windows.net/powerbi/api",
-        "redirectUri": environment.adalRedirectUri
-    });
-
-    this.adalService.handleWindowCallback();
-    this.isAuthenticated = this.adalService.userInfo.isAuthenticated;
-    if (this.adalService.userInfo.isAuthenticated) {
-      this.adalService.getUser()
-        .subscribe(user => {
-          this.userName = user.userName
-          appInsights.setAuthenticatedUserContext(this.userName, this.userName);
-        },
-          error => console.error(error.message, error));
-    }
-    else {
-      this.adalService.login();
-    }
-
     this.initWhatsNew();
   }
 

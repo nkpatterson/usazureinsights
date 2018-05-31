@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService, CookieOptionsArgs } from 'angular2-cookie/core';
-import { AdalService } from 'ng2-adal/dist/core';
 import * as pbi from 'powerbi-client';
 import * as models from 'powerbi-models';
 import * as qs from 'qs';
 
 import { ReportService } from './report.service';
 import { Report } from './report';
+import { AuthService } from '../profile/auth.service';
 
 declare var appInsights: any;
 declare var jQuery: any;
@@ -25,7 +25,6 @@ export class ReportComponent implements OnInit {
   private container: any;
   private defaultFilters: models.IFilter[];
   private cookieKey: string = "sweouinsights.accountList";
-  private pbiResource: string = "https://analysis.windows.net/powerbi/api";
   private reportsList: Report[];
   private selectedReport: Report;
   private accountsModalErrorMsg: string;
@@ -33,7 +32,7 @@ export class ReportComponent implements OnInit {
   private cookieExpiry: Date;
 
   constructor(
-    private adalService: AdalService,
+    private authService: AuthService,
     private cookies: CookieService,
     private reportSvc: ReportService
   ) { 
@@ -50,16 +49,13 @@ export class ReportComponent implements OnInit {
     this.selectedReport = q.reportId ? reportSvc.getReport(q.reportId) : this.reportsList[0];
 
     this.initNoAccessHelper();
-}
+  }
 
   ngOnInit() {
-    this.adalService.acquireToken(this.pbiResource)
-      .subscribe(token => {
-        this.token = token;
-        this.embedReport();
-      }, error => {
-        console.error(error);
-      });
+    this.authService.getPbiToken().then(token => {
+      this.token = token;
+      this.embedReport();
+    });
   }
 
   initNoAccessHelper() {
@@ -122,11 +118,7 @@ export class ReportComponent implements OnInit {
 
       if (err && err.errorCode == "TokenExpired") {
         appInsights.trackEvent("TokenExpired");
-        me.adalService.acquireToken(me.pbiResource)
-          .subscribe(token => {
-            me.token = token;
-            me.embedReport();
-          });
+        me.authService.getPbiToken(true);
       }
     });
   }

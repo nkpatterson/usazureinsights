@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdalService } from 'ng2-adal/dist/core';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: '[profile]',
@@ -12,21 +12,22 @@ export class ProfileComponent implements OnInit {
   public isAuthenticated: boolean;
 
   constructor(
-    private adalService: AdalService
+    private authService: AuthService
   ) { }
 
   public ngOnInit(): void {
-    this.isAuthenticated = this.adalService.userInfo.isAuthenticated;
-    this.adalService.getUser()
-      .subscribe(user => this.userName = user.userName,
-                  error => console.error(error.message, error));
+    let user = this.authService.getUser();
+    if (user) {
+      this.userName = user.displayableId;
+      this.isAuthenticated = true;
+    }
   }
 
   public login(): void {
-    this.adalService.login();
+    this.authService.login();
   }
 
   public logOut(): void {
-    this.adalService.logOut();
+    this.authService.logout();
   }
 }
