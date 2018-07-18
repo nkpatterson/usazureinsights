@@ -140,7 +140,7 @@ export class ReportComponent implements OnInit {
   }
 
   getFyFilter(): models.IBasicFilter {
-    return this.getFilter("Calendar", "Fiscal Year", ["FY17", "FY18"]);
+    return this.getFilter("Calendar", "Fiscal Year", ["FY18", "FY19"]);
   }
   
   getFilter(table: string, column: string, values): models.IBasicFilter {
