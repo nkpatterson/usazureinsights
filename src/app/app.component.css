@@ -1,3 +1,10 @@
 #whatsnew {
     margin: 10px 0;
 }
+#footer {
+    margin-top:85px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 0.8em;
+}
