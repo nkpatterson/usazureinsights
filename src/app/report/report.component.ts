@@ -142,6 +142,11 @@ export class ReportComponent implements OnInit {
   getFyFilter(): models.IBasicFilter {
     return this.getFilter("Calendar", "Fiscal Year", ["FY18", "FY19"]);
   }
+
+  getAliasFilter(): models.IBasicFilter {
+    let alias = this.authService.getUser().displayableId.split("@")[0].toUpperCase();
+    return this.getFilter("AST Assignments", "AST Alias", [alias]);
+  }
   
   getFilter(table: string, column: string, values): models.IBasicFilter {
     const filter: models.IBasicFilter = {
@@ -189,9 +194,11 @@ export class ReportComponent implements OnInit {
     }
 
     let fyFilter = this.getFyFilter();
+    let aliasFilter = this.getAliasFilter();
     let tpFilter = this.getTopParentFilter(accountNames);
     let tpidFilter = this.getTpidFilter(tpids);
-    let filters = [fyFilter];
+    let filters = [aliasFilter];
+    // let filters = [fyFilter, aliasFilter];
 
     if (accountNames.length > 0)
       filters.push(tpFilter);

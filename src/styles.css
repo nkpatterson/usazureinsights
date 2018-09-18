@@ -12,3 +12,24 @@ body {
 .clear {
     clear: both;
 }
+#carmenbot {
+    width: 500px;
+    height: 350px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #bbb;
+    box-shadow: 0 0 10px #c9c9c9;
+    position: absolute;
+    right: 20px;
+    margin-bottom: 20px;
+    /* visibility: hidden; */
+}
+.wc-header { 
+    background-color: #337ab7;
+}
+.wc-message-groups {
+    background-color: #fff;
+}
+.wc-console {
+    background-color: #fff;
+}

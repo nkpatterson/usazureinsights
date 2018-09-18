@@ -14,6 +14,7 @@ declare var jQuery: any;
 export class AppComponent implements OnInit {
   public userName: string;
   public isAuthenticated: boolean;
+  public isBotVisible: boolean;
   private cookieKey: string = "sweouinsights.whatsnew";
 
   constructor(
@@ -47,5 +48,9 @@ export class AppComponent implements OnInit {
 
         appInsights.trackEvent("WhatsNewDismissed", {Version: version});
       });
+  }
+
+  toggleBot(): void {
+    this.isBotVisible = !this.isBotVisible;
   }
 }
