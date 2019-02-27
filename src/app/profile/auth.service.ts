@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as Msal from 'msal';
+import * as Msal from '@azure/msal';
 import { environment } from '../../environments/environment';
 
 declare var appInsights: any;

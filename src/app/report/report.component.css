@@ -5,6 +5,9 @@
     margin: 10px 0;
     float: right;
 }
+.button-bar button {
+    margin-left: 6px;
+}
 #report-selector { 
     float: left;
 }
