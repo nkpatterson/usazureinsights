@@ -2,7 +2,7 @@
     <a href="#login" (click)="login()">Login</a>
 </li>
 <li *ngIf="isAuthenticated">
-    <a href="http://gravatar.com" class="gravatarLink" target="_blank"><img gravatar [email]="userName" [size]="64"></a>
+    <a href="http://gravatar.com" class="gravatarLink" target="_blank"><img ngxGravatar [email]="userName" [size]="36"></a>
 </li>
 <li class="dropdown" *ngIf="isAuthenticated">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{userName}} <span class="caret"></span></a>

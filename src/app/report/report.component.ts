@@ -19,16 +19,17 @@ const CANNOT_USE_TPIDS_AND_ACCOUNT_NAMES = "You cannot use both TPIDs and Accoun
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
+  public accountList: string;
+  public reportsList: Report[];
+  public selectedReport: Report;
+  public accountsModalErrorMsg: string;
+  public showNoAccessHelper: boolean;
+
   private token: string;
-  private accountList: string;
   private report: pbi.Report;
   private container: any;
   private defaultFilters: models.IFilter[];
   private cookieKey: string = "sweouinsights.accountList";
-  private reportsList: Report[];
-  private selectedReport: Report;
-  private accountsModalErrorMsg: string;
-  private showNoAccessHelper: boolean;
   private cookieExpiry: Date;
 
   constructor(

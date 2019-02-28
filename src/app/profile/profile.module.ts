@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { Gravatar } from 'ng2-gravatar-directive';
+import { GravatarModule } from  'ngx-gravatar';
 
 import { AuthService } from './auth.service';
 import { ProfileComponent } from './profile.component';
 
 @NgModule({
   imports: [
-    BrowserModule
+    BrowserModule,
+    GravatarModule
   ],
   exports: [
     ProfileComponent
   ],
   declarations: [
-    Gravatar,
     ProfileComponent
   ],
   providers: [
