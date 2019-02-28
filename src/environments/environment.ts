@@ -5,5 +5,4 @@
 
 export const environment = {
   production: false,
-  adalRedirectUri: "http://localhost:4200"
 };

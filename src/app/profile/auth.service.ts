@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as Msal from '@azure/msal';
-import { environment } from '../../environments/environment';
 
 declare var appInsights: any;
 
@@ -27,7 +26,6 @@ export class AuthService {
       this.appConfig.authority, 
       this.authCallback, { 
         cacheLocation: 'localStorage', 
-        redirectUri: environment.adalRedirectUri,
         logger: logger,
         navigateToLoginRequestUrl: false
       });
