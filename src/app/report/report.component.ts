@@ -115,9 +115,9 @@ export class ReportComponent implements OnInit {
     this.report.on("error", function(evt) {
       let err = evt.detail as models.IError;
       appInsights.trackException(new Error(err.message), "Report.OnError", 
-        {DetailedMessage: err.detailedMessage, ErrorCode: err.errorCode});
+        {DetailedMessage: err.detailedMessage, Message: err.message});
 
-      if (err && err.errorCode == "TokenExpired") {
+      if (err && err.message == "TokenExpired") {
         appInsights.trackEvent("TokenExpired");
         me.authService.getPbiToken(true);
       }
