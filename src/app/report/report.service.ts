@@ -35,7 +35,8 @@ export class ReportService {
           }
         });
       });
-    })
+    }),
+    new Report("Azure DevOps Customers", "fd96f234-94ac-402d-81e7-0a8f13a13c0d", "cd2504a9-b748-4087-b3f9-60c46b6f1782", new AccountFilterConfig("Company", "CompanyName", "TPID", "TPID", false), 'https://aka.ms/AZPipelines2ACR')
   ];
 
   constructor(private authSvc: AuthService) { }
